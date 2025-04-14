@@ -1,5 +1,8 @@
+'use client'
+
 import './globals.css'
-import { Web3Modal } from '../lib/wallet'
+import { Web3Modal, wagmiConfig } from '../lib/wallet'
+import { WagmiConfig } from 'wagmi'
 
 export const metadata = {
   title: 'Web3 Dashboard',
@@ -10,8 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
-        <Web3Modal />
+        <WagmiConfig config={wagmiConfig}>
+          {children}
+          <Web3Modal />
+        </WagmiConfig>
       </body>
     </html>
   )
