@@ -1,26 +1,27 @@
 'use client'
 
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+import { EthereumClient } from '@web3modal/ethereum'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { base } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
 
-export const projectId = 'YOUR_PROJECT_ID' // à remplacer par ton vrai ID Web3Modal
+export const projectId = 'TON_PROJECT_ID' // remplace avec ton vrai ID
 
-const metadata = {
-  name: 'Web3 Dashboard',
-  description: 'Track your PNL & Portfolio',
-  url: 'https://yourdomain.com',
-  icons: ['https://yourdomain.com/icon.png']
-}
-
-export const { Web3Modal, useWeb3Modal, useWeb3ModalAccount } = createWeb3Modal({
-  ethersConfig: defaultConfig({ metadata }),
-  chains: [
-    {
-      chainId: 8453,
-      name: 'Base',
-      currency: 'ETH',
-      rpcUrl: 'https://mainnet.base.org',
-      explorerUrl: 'https://basescan.org'
-    }
-  ],
-  projectId
+const chains = [base]
+const wagmiConfig = defaultWagmiConfig({
+  projectId,
+  chains,
+  metadata: {
+    name: 'Web3 Dashboard',
+    description: 'Wallet, PNL, Portfolio on Base',
+    url: 'https://my-web3-dashboard1.vercel.app',
+    icons: ['https://vercel.com/_next/static/media/vercel.3679f29b.svg']
+  }
 })
+
+const ethereumClient = new EthereumClient(wagmiConfig, chains)
+
+createWeb3Modal({ wagmiConfig, projectId, chains })
+
+export { wagmiConfig, ethereumClient }
